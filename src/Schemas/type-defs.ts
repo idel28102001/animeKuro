@@ -39,10 +39,17 @@ const typeDefs = gql`
         url: String
     }
 
-    type FilterCommunityReview {
+    type Filter{
         animeId: Number
         offset: Number
         limit: Number
+    }
+
+    type FilterWithTypes {
+        animeId: Number
+        offset: Number
+        limit: Number
+        type: String
     }
 
     enum LikeDislike {

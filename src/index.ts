@@ -37,7 +37,7 @@ export const animePage = gpl`
                 ...Photo
             }
             trailer {
-                ...trailer
+                ...Trailer
             }
         }
     }
@@ -49,11 +49,7 @@ export const animeReview = gpl`
         animeReview(data:$id) {
             id
             related {
-                id
-                title
-                releaseDate
-                type
-                ...Photo
+                ...Related
             }
             charachters {
                 ...ProfileElement
@@ -84,58 +80,107 @@ export const animeReview = gpl`
                 }
             }
             frames {
-                trailer {
-                    ...trailer
-                }
-                frames {
-                    ...Photo
-                }
+                ...FramesAndTrailer
             }
             similars {
-                id
-                ...Photo
-                title
-                episodesCount
-                releasedAt
-                type
+                ...Similar
             }
             communitySections {
                 id
                 messages {
-                    ...reviewMessage
+                    ...ReviewMessage
                 }
             }
         }
     }
 
-    query communityReview($filter: FilterCommunityReview) {
+    query related($filter: Filter) {
+        related(data:$filter) {
+            ...Related
+        }
+    }
+
+    query similars($filter: Filter) {
+        similar(data:$filter) {
+            ...Similar
+        }
+    }
+
+    query characters($filter: Filter) {
+        characters(data:$filter) {
+            ...ProfileElement
+        }
+    }
+
+    query authors($filter: Filter) {
+        authors(data:$filter) {
+            ...ProfileElement
+        }
+    }
+
+
+    query frames($filter: Filter) {
+        frames(data:$filter) {
+            ...FramesAndTrailer
+        }
+    }
+
+
+    query communityReview($filter: Filter) {
         comunityReview(data:$filter) {
             id
             messages {
-                ...reviewMessage
+                ...ReviewMessage
             }
         }
     }
 
-    query discussion($filter: FilterCommunityReview) {
+    query discussion($filter: Filter) {
         discussion(data: filter) {
             id
             messages {
-                ...animeMessage
+                ...AnimeMessage
             }
         }
     }
 
     mutation writeReview($body:ReviewBody) {
         writeReview(data: body) {
-            ...reviewMessage
+            ...ReviewMessage
         }
     }
 
     mutation startDiscussion($body:DiscussionBody) {
         startDiscussion(data: body) {
-            ...animeMessage
+            ...AnimeMessage
         }
+    }
+
+
+    fragment Related on AnimePage {
+        id
+        title
+        releaseDate
+        type
+        ...Photo
+    }
+
+    fragment FramesAndTrailer on AnimePage {
+        trailer {
+            ...Trailer
+        }
+        frames {
+            ...Photo
+        }
+    }
+
+    fragment Similar on AnimePage {
+        id
+        ...Photo
+        title
+        episodesCount
+        releasedAt
+        type
     }
 
     fragment ProfileElement on AnimePage {
@@ -150,13 +195,13 @@ export const animeReview = gpl`
         name
     }
 
-    fragment reviewMessage on AnimePage {
-        ...animeMessage
+    fragment ReviewMessage on AnimePage {
+        ...AnimeMessage
         userRate
         messageRate
     }
 
-    fragment trailer on AnimePage {
+    fragment Trailer on AnimePage {
         id
         url
         duration
@@ -165,7 +210,7 @@ export const animeReview = gpl`
         }
     }
 
-    fragment animeMessage on AnimePage {
+    fragment AnimeMessage on AnimePage {
         id
         text
         createdAt
