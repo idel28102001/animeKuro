@@ -30,12 +30,14 @@ export const animePage = gpl`
                 name
             }
             studioIcon {
-                img
+                url
                 name
             }
             frames {
-                duration
-                frames
+                ...Photo
+            }
+            trailer {
+                ...trailer
             }
         }
     }
@@ -46,13 +48,63 @@ export const animeReview = gpl`
     query animeReview($id:ID) {
         animeReview(data:$id) {
             id
-            related
-            charachters
-            authors
-            statistic
-            frames
-            similars
-            communitySections
+            related {
+                id
+                title
+                releaseDate
+                type
+                ...Photo
+            }
+            charachters {
+                ...ProfileElement
+            }
+            authors {
+                ...ProfileElement
+            }
+            statistic {
+                id
+                watchInfo {
+                    id
+                    usersCount
+                    statuses {
+                        id
+                        slug
+                        count
+                    }
+                }
+                rateInfo {
+                    id
+                    averageRate
+                    ratesCount
+                    rates {
+                        id
+                        rateNumber
+                        rateCount
+                    }
+                }
+            }
+            frames {
+                trailer {
+                    ...trailer
+                }
+                frames {
+                    ...Photo
+                }
+            }
+            similars {
+                id
+                ...Photo
+                title
+                episodesCount
+                releasedAt
+                type
+            }
+            communitySections {
+                id
+                messages {
+                    ...reviewMessage
+                }
+            }
         }
     }
 
@@ -86,6 +138,12 @@ export const animeReview = gpl`
         }
     }
 
+    fragment ProfileElement on AnimePage {
+        id
+        title
+        ...Photo
+    }
+
     fragment Photo on AnimePage {
         id
         url
@@ -96,6 +154,15 @@ export const animeReview = gpl`
         ...animeMessage
         userRate
         messageRate
+    }
+
+    fragment trailer on AnimePage {
+        id
+        url
+        duration
+        frame {
+            ...Photo
+        }
     }
 
     fragment animeMessage on AnimePage {

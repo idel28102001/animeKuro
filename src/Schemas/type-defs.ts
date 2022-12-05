@@ -71,9 +71,10 @@ const typeDefs = gql`
         CHARACTERS
     }
 
-    type Frames {
-        id: ID
-        frames: [Image!]!
+    type Trailer {
+        id: ID!
+        url: String!
+        frame: Image!
         duration: Number
     }
 
@@ -92,7 +93,8 @@ const typeDefs = gql`
             imageObj: AnimeImage!
             sections: [SectionEnum!]!
             studioIcon: Image!
-            frames: Frames 
+            frames: [Image!]! 
+            trailer: Trailer
         }
     }
 `;
