@@ -42,11 +42,9 @@ export const animePage = gpl`
                 name
             }
             studioIcon {
+                id
                 url
                 name
-            }
-            trailer {
-                ...Trailer
             }
             related(input: $relatedFilter) {
                 id
@@ -62,12 +60,8 @@ export const animePage = gpl`
                     releaseDate
                     type
                     image {
-                        large {
-                            ...Photo
-                        }
-                        extraLarge {
-                            ...Photo
-                        }
+                        large
+                        extraLarge
                     }
                 } 
             }
@@ -79,7 +73,9 @@ export const animePage = gpl`
                     id
                     slug
                 }
-                ...ProfileElement
+                elements {
+                    ...ProfileElement
+                }
             }
             characterPreview {
                 edge {
@@ -108,28 +104,23 @@ export const animePage = gpl`
                 id
                 count
                 elements {
-                    some
+                    ...ProfileElement
                 }
             }
             frames(input: $framesFilter) {
                 trailer {
-                    ...Trailer
+                    id
+                    site
                 }
-                coverImage {
-                    large {
-                        ...Photo
-                    }
-                    extraLarge {
-                        ...Photo
-                    }
+                image {
+                    large
+                    extraLarge
                 }
             }
             similiars(input: $similarsFilter) {
                 id
                 image {
-                    large {
-                        ...Photo
-                    }
+                    large
                 }
                 title
                 episodesCount
@@ -143,24 +134,8 @@ export const animePage = gpl`
         id
         title
         image {
-            large {
-                ...Photo
-            }
+            large
         }
-    }
-    fragment Trailer on AnimePage { 
-        id
-        url
-        duration
-        frame {
-            large {
-                ...Photo
-            }
-        }
-    }
-    fragment Photo on AnimePage {
-        id
-        url
     }
 `;
 console.log(animePage);
