@@ -1,108 +1,15 @@
 import {gql} from "apollo-server";
 const typeDefs = gql`
 
-    type Title {
-        original: String!
-        local: String!
+    input FilterInput {
+        offset: Int!
+        limit: Int!
     }
 
-    enum AnimeType {
-        TV
-        OVA
-    }
-
-    enum StatusEnum {
-        REALEASED
-        PENDING
-    }
-
-    type Status {
-        dateFrom: Date!
-        dateTo: Date
-        slug: StatusEnum
-    }
-
-    enum Genre {
-        PSYCHOLOGY
-        SENEN
-        DETECTIVE
-    }
-
-    enum Rating {
-        PG13
-        R_17
-    }
-
-    type Image {
-        id: ID
-        name: String
-        url: String
-    }
-
-    type Filter{
-        animeId: Number
-        offset: Number
-        limit: Number
-    }
-
-    type FilterWithTypes {
-        animeId: Number
-        offset: Number
-        limit: Number
-        type: String
-    }
-
-    enum LikeDislike {
-        Like
-        Dislike
-    }
-    
-    type DiscussionBody {
-        animeId: ID
-        text: String
-    }
-
-    type ReviewBody {
-        animeId: ID
-        text: String
-        rate: LikeDislike
-    }
-
-    type AnimeImage {
-        heroImage: Image!
-        mainImage: Image!
-    }
-
-    enum SectionEnum {
-        REVIEW
-        CHARACTERS
-    }
-
-    type Trailer {
-        id: ID!
-        url: String!
-        frame: Image!
-        duration: Number
-    }
-
-    AnimePage {
-        generalAnimePageInfo(input: PageId) {
-            id: ID!
-            title: Title!
-            type: AnimeType!
-            episodesCount: Number!
-            nextEpisodeRealiseDate: String
-            status: Status!
-            genres: [Genre!]
-            rating: Rating!
-            rate: Float
-            description: String!
-            imageObj: AnimeImage!
-            sections: [SectionEnum!]!
-            studioIcon: Image!
-            frames: [Image!]! 
-            trailer: Trailer
-        }
+    input FilterWithTypesInput {
+        type: String!
+        offset: Int!
+        limit: Int!
     }
 `;
 

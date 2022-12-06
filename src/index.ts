@@ -1,29 +1,43 @@
 import gpl from 'graphql-tag';
 
 
+
 export const animePage = gpl`
-    query generalAnimePageInfo($id: ID) {
-        generalAnimePageInfo(data:$id) {
+    query media($id: ID!,         
+        $relatedFilter: FilterWithTypesInput,
+        $charactersFilter: FilterWithTypesInput,
+        $authorsFilter: FilterInput,
+        $framesFilter: FilterInput,
+        $similarsFilter: FilterInput,
+        ) {
+        Media(input:$id) {
             id
-            title
+            slug
+            name
+            originalName
             type
             episodesCount
-            nextEpisodeRealiseDate
-            status {
-                dateFrom
-                dateTo
-                slug
+            nextAiringEpisode {
+                airingAt
             }
-            genres
-            rate
+            status
+            startDate {
+                year
+            }
+            endDate {
+                year
+            }
+            genres {
+                id
+                slug
+                name
+            }
+            rating
             description
-            imageObj {
-                heroImage {
-                   ...Photo 
-                }
-                mainImage {
-                    ...Photo
-                }
+            bannerImage
+            coverImage {
+                extraLarge
+                large
             }
             sections {
                 id
@@ -33,189 +47,107 @@ export const animePage = gpl`
                 url
                 name
             }
-            frames {
-                ...Photo
-            }
             trailer {
                 ...Trailer
             }
-        }
-    }
-`;
-
-export const animeReview = gpl`
-
-    query animeReview($id:ID) {
-        animeReview(data:$id) {
-            id
-            related {
-                ...Related
+            related(input: $relatedFilter) {
+                id
+                title
+                types {
+                    id
+                    slug
+                }
+                elements {
+                    id
+                    title
+                    releaseDate
+                    type
+                    image {
+                        large {
+                            ...Photo
+                        }
+                    }
+                } 
             }
-            charachters {
+            characters(input: $charactersFilter) {
                 ...ProfileElement
             }
-            authors {
+            characterPreview {
+                edge {
+                    id
+                    role
+                    name {
+                        userPreferred
+                        original
+                        english
+                    }
+                    description
+                    voiceActor {
+                        id
+                        name {
+                            userPreferred
+                        }
+                        role
+                        language
+                        image {
+                            large
+                        }
+                    }
+                }
+            }
+            authors(input: $authorsFilter) {
                 ...ProfileElement
             }
-            statistic {
-                id
-                watchInfo {
-                    id
-                    usersCount
-                    statuses {
-                        id
-                        slug
-                        count
-                    }
+            frames(input: $framesFilter) {
+                trailer {
+                    ...Trailer
                 }
-                rateInfo {
-                    id
-                    averageRate
-                    ratesCount
-                    rates {
-                        id
-                        rateNumber
-                        rateCount
+                coverImage {
+                    large {
+                        ...Photo
+                    }
+                    extraLarge {
+                        ...Photo
                     }
                 }
             }
-            frames {
-                ...FramesAndTrailer
-            }
-            similars {
-                ...Similar
-            }
-            communitySections {
+            similiars(input: $similarsFilter) {
                 id
-                messages {
-                    ...ReviewMessage
+                image {
+                    large {
+                        ...Photo
+                    }
                 }
+                title
+                episodesCount
+                releasedAt
+                type
             }
         }
-    }
-
-    query related($filter: Filter) {
-        related(data:$filter) {
-            ...Related
-        }
-    }
-
-    query similars($filter: Filter) {
-        similar(data:$filter) {
-            ...Similar
-        }
-    }
-
-    query characters($filter: Filter) {
-        characters(data:$filter) {
-            ...ProfileElement
-        }
-    }
-
-    query authors($filter: Filter) {
-        authors(data:$filter) {
-            ...ProfileElement
-        }
-    }
-
-
-    query frames($filter: Filter) {
-        frames(data:$filter) {
-            ...FramesAndTrailer
-        }
-    }
-
-
-    query communityReview($filter: Filter) {
-        comunityReview(data:$filter) {
-            id
-            messages {
-                ...ReviewMessage
-            }
-        }
-    }
-
-    query discussion($filter: Filter) {
-        discussion(data: filter) {
-            id
-            messages {
-                ...AnimeMessage
-            }
-        }
-    }
-
-    mutation writeReview($body:ReviewBody) {
-        writeReview(data: body) {
-            ...ReviewMessage
-        }
-    }
-
-    mutation startDiscussion($body:DiscussionBody) {
-        startDiscussion(data: body) {
-            ...AnimeMessage
-        }
-    }
-
-
-    fragment Related on AnimePage {
-        id
-        title
-        releaseDate
-        type
-        ...Photo
-    }
-
-    fragment FramesAndTrailer on AnimePage {
-        trailer {
-            ...Trailer
-        }
-        frames {
-            ...Photo
-        }
-    }
-
-    fragment Similar on AnimePage {
-        id
-        ...Photo
-        title
-        episodesCount
-        releasedAt
-        type
     }
 
     fragment ProfileElement on AnimePage {
         id
         title
-        ...Photo
+        image {
+            large {
+                ...Photo
+            }
+        }
     }
-
-    fragment Photo on AnimePage {
-        id
-        url
-        name
-    }
-
-    fragment ReviewMessage on AnimePage {
-        ...AnimeMessage
-        userRate
-        messageRate
-    }
-
     fragment Trailer on AnimePage {
         id
         url
         duration
         frame {
-            ...Photo
+            large {
+                ...Photo
+            }
         }
     }
-
-    fragment AnimeMessage on AnimePage {
+    fragment Photo on AnimePage {
         id
-        text
-        createdAt
-        commentsCount
-        from
+        url
     }
 `;
 console.log(animePage);
