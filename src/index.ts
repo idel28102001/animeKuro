@@ -83,7 +83,7 @@ export const animePage = gpl`
                     role
                     name {
                         userPreferred
-                        original
+                        native
                         english
                     }
                     description
@@ -138,4 +138,14 @@ export const animePage = gpl`
         }
     }
 `;
-console.log(animePage);
+
+
+const characterPage = gpl`
+    query characher($id: ID) {
+        characher(id: $id) {
+            id
+        }
+    }
+`;
+
+console.log(characterPage);
