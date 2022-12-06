@@ -19,11 +19,9 @@ export const animePage = gpl`
                 airingAt
             }
             status
-            startDate {
-                year
-            }
-            endDate {
-                year
+            date {
+                startYear
+                endYear
             }
             genres {
                 id
@@ -32,10 +30,12 @@ export const animePage = gpl`
             }
             rating
             description
-            bannerImage
-            coverImage {
-                extraLarge
-                large
+            image {
+                bannerImage
+                coverImage {
+                    extraLarge
+                    large
+                }
             }
             sections {
                 id
