@@ -11,6 +11,13 @@ const typeDefs = gql`
         offset: Int!
         limit: Int!
     }
+
+    input MockFilter {
+        type: String
+        offset: Int
+        limit: Int
+        search: String
+    }
 `;
 
 export default typeDefs;

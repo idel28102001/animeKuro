@@ -8,7 +8,7 @@ export const animePage = gpl`
         $framesFilter: FilterInput,
         $similarsFilter: FilterInput,
         ) {
-        Media(input:$id) {
+        animeMedia(input:$id) {
             id
             slug
             name
@@ -32,10 +32,7 @@ export const animePage = gpl`
             description
             image {
                 bannerImage
-                coverImage {
-                    extraLarge
-                    large
-                }
+                coverImage
             }
             sections {
                 id
@@ -54,15 +51,12 @@ export const animePage = gpl`
                     id
                     slug
                 }
-                elements {
+                edges {
                     id
                     title
                     releaseDate
                     type
-                    image {
-                        large
-                        extraLarge
-                    }
+                    image
                 } 
             }
             characters(input: $charactersFilter) {
@@ -73,7 +67,7 @@ export const animePage = gpl`
                     id
                     slug
                 }
-                elements {
+                edges {
                     ...ProfileElement
                 }
             }
@@ -94,16 +88,14 @@ export const animePage = gpl`
                         }
                         role
                         language
-                        image {
-                            large
-                        }
+                        image
                     }
                 }
             }
             authors(input: $authorsFilter) {
                 id
                 count
-                elements {
+                edges {
                     ...ProfileElement
                 }
             }
@@ -112,16 +104,11 @@ export const animePage = gpl`
                     id
                     site
                 }
-                image {
-                    large
-                    extraLarge
-                }
+                image
             }
             similiars(input: $similarsFilter) {
                 id
-                image {
-                    large
-                }
+                image
                 title
                 episodesCount
                 releasedAt
@@ -133,14 +120,12 @@ export const animePage = gpl`
     fragment ProfileElement on AnimePage {
         id
         title
-        image {
-            large
-        }
+        image
     }
 `;
 
 
-const characterPage = gpl`
+const animeCharacher = gpl`
     query animeCharacher(
         $id: ID,
         $relatedFilter: FilterInput,
@@ -153,9 +138,7 @@ const characterPage = gpl`
                 native
                 english
             }
-            image {
-                large
-            }
+            image
             role
             description
             voiceActor {
@@ -164,9 +147,7 @@ const characterPage = gpl`
                     userPreferred
                 }
                 role
-                image {
-                    large
-                }
+                image
             }
             related(input: $relatedFilter) {
                 id
@@ -176,15 +157,12 @@ const characterPage = gpl`
                     id
                     slug
                 }
-                elements {
+                edges {
                     id
                     title
                     releaseDate
                     type
-                    image {
-                        large
-                        extraLarge
-                    }
+                    image
                 } 
             }
             frames(input: $framesFilter) {
@@ -192,13 +170,31 @@ const characterPage = gpl`
                     id
                     site
                 }
-                image {
-                    large
-                    extraLarge
+                image
+            }
+        }
+    }
+`;
+
+const animeSearch = gpl`
+    query animeSearch($filter: MockFilter) {
+        animeSearch(filter: $filter) {
+            id
+            slug
+            image
+            node {
+                name
+                originalName
+                type
+                properties {
+                    id
+                    episodesCount
+                    releaseYear
+                    seriesType
                 }
             }
         }
     }
 `;
 
-console.log(characterPage);
+console.log(animeSearch);
