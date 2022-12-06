@@ -141,9 +141,62 @@ export const animePage = gpl`
 
 
 const characterPage = gpl`
-    query characher($id: ID) {
+    query characher(
+        $id: ID,
+        $relatedFilter: FilterInput,
+        $framesFilter: FilterInput
+        ) {
         characher(id: $id) {
             id
+            name {
+                userPrefered
+                native
+                english
+            }
+            image {
+                large
+            }
+            role
+            description
+            voiceActor {
+                id
+                name {
+                    userPreferred
+                }
+                role
+                image {
+                    large
+                }
+            }
+            related(input: $relatedFilter) {
+                id
+                title
+                count
+                types {
+                    id
+                    slug
+                }
+                elements {
+                    id
+                    title
+                    releaseDate
+                    type
+                    image {
+                        large
+                        extraLarge
+                    }
+                } 
+            }
+            frames(input: $framesFilter) {
+                trailer {
+                    id
+                    site
+                }
+                image {
+                    large
+                    extraLarge
+                }
+            }
         }
     }
 `;
