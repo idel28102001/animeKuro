@@ -53,6 +53,7 @@ export const animePage = gpl`
             related(input: $relatedFilter) {
                 id
                 title
+                count
                 types {
                     id
                     slug
@@ -66,10 +67,20 @@ export const animePage = gpl`
                         large {
                             ...Photo
                         }
+                        extraLarge {
+                            ...Photo
+                        }
                     }
                 } 
             }
             characters(input: $charactersFilter) {
+                id
+                title
+                count
+                types {
+                    id
+                    slug
+                }
                 ...ProfileElement
             }
             characterPreview {
@@ -96,7 +107,11 @@ export const animePage = gpl`
                 }
             }
             authors(input: $authorsFilter) {
-                ...ProfileElement
+                id
+                count
+                elements: {
+                    ...ProfileElement
+                }
             }
             frames(input: $framesFilter) {
                 trailer {
