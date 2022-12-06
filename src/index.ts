@@ -1,7 +1,7 @@
 import gpl from 'graphql-tag';
 
 export const animePage = gpl`
-    query media($id: ID!,         
+    query animeMedia($id: ID!,         
         $relatedFilter: FilterWithTypesInput,
         $charactersFilter: FilterWithTypesInput,
         $authorsFilter: FilterInput,
@@ -141,7 +141,7 @@ export const animePage = gpl`
 
 
 const characterPage = gpl`
-    query characher(
+    query animeCharacher(
         $id: ID,
         $relatedFilter: FilterInput,
         $framesFilter: FilterInput
