@@ -1,7 +1,11 @@
+import typeDefs from './Schemas/type-defs';
 import gpl from 'graphql-tag';
 
 export const animePage = gpl`
-    query animeMedia($id: ID!,         
+    query animeMedia(
+        $id: ID,
+        $watchListStatus: WatchListStatus
+        $sort: MediaSort         
         $relatedFilter: FilterWithTypesInput,
         $charactersFilter: FilterWithTypesInput,
         $authorsFilter: FilterInput,
@@ -9,39 +13,40 @@ export const animePage = gpl`
         $similarsFilter: FilterInput,
         ) {
         animeMedia(input:$id) {
-            id
-            slug
-            name
-            originalName
-            type
-            episodesCount
-            nextAiringEpisode {
-                airingAt
-            }
-            status
-            date {
-                startYear
-                endYear
-            }
-            genres {
+            media {
                 id
                 slug
-                name
-            }
-            rating
-            description
-            image {
-                bannerImage
-                coverImage
-            }
-            sections {
-                id
-                name
-            }
-            studioIcon {
-                id
-                url
-                name
+                name {
+                    userPreferred
+                    native
+                }
+                type
+                episodesCount
+                nextAiringEpisode {
+                    airingAt
+                }
+                status
+                date {
+                    startYear
+                    endYear
+                }
+                genres {
+                    id
+                    slug
+                    name
+                }
+                score
+                description
+                image
+                sections {
+                    id
+                    name
+                }
+                studioIcon {
+                    id
+                    url
+                    name
+                }
             }
             related(input: $relatedFilter) {
                 id
@@ -134,7 +139,7 @@ const animeCharacher = gpl`
         characher(id: $id) {
             id
             name {
-                userPrefered
+                userPreferred
                 native
                 english
             }
@@ -183,8 +188,10 @@ const animeSearch = gpl`
             slug
             image
             node {
-                name
-                originalName
+                name {
+                    userPreferred
+                    native
+                }
                 type
                 properties {
                     id
