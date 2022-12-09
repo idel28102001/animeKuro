@@ -1,33 +1,13 @@
-import {gql} from "apollo-server";
-const typeDefs = gql`
-    enum WatchListStatus {
-        PLANNED
-        WATCHING
-        COMPLETED
-        DELAYED
-        DROPPED
-    }
-
-    enum MediaSort {
-        ID
-        ID_DESC
-        TYPE
-        TYPE_DESC
-        SCORE
-        SCORE_DESC
-    }
-
+export default `
     input MediaFilter {
         id: ID
         watchListStatus: WatchListStatus
         sort: MediaSort
     }
 
-
-
-
-
-
+    input MediaInput {
+        id: ID
+    }
 
     input FilterInput {
         offset: Int!
@@ -47,5 +27,3 @@ const typeDefs = gql`
         search: String
     }
 `;
-
-export default typeDefs;
